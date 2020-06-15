@@ -15,7 +15,8 @@ class AdministradorController extends Controller
     //nos permite ver los datos guardados
     public function index()
     {
-        //
+        //para retornar todos los administradores
+        return Administrador::all();
     }
 
     /**
@@ -35,10 +36,15 @@ class AdministradorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     //acá se almacena la información
     public function store(Request $request)
     {
-        //
+        //almacenar un administrador
+        //se crean con lo que trae request;
+        $admin = Administrador::create($request->all());
+        return $admin;
     }
 
     /**
@@ -50,7 +56,8 @@ class AdministradorController extends Controller
     //acá se muestra por identificador
     public function show(Administrador $administrador)
     {
-        //
+        // 
+        return $administrador;
     }
 
     /**
@@ -76,6 +83,8 @@ class AdministradorController extends Controller
     public function update(Request $request, Administrador $administrador)
     {
         //
+        $administrador->update($request->all());
+        return $administrador;
     }
 
     /**
@@ -88,5 +97,7 @@ class AdministradorController extends Controller
     public function destroy(Administrador $administrador)
     {
         //
+        $administrador->delete();
+        return $administrador;
     }
 }

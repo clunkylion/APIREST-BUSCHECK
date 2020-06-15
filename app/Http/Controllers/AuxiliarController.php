@@ -44,7 +44,7 @@ class AuxiliarController extends Controller
         //
         $auxiliar = Auxiliar::create($request->all());
         return response()->json([
-            "message" => "Administrador creado correctamente",
+            "message" => "Auxiliar creado correctamente",
             "data" => $auxiliar,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
@@ -90,7 +90,7 @@ class AuxiliarController extends Controller
         $auxiliar = Auxiliar::find($id);
         $auxiliar->update($request->all());
         return response()->json([
-            "message" => "Administrador actualizado correctamente",
+            "message" => "Auxiliar actualizado correctamente",
             "data" => $auxiliar,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
@@ -107,7 +107,7 @@ class AuxiliarController extends Controller
         //
         $auxiliar->delete();
         return response()->json([
-            "message" => "Administrador eliminado Correctamente",
+            "message" => "Auxiliar eliminado Correctamente",
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Auxiliar;
 use App\Boleto;
+use App\Empresa;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -59,9 +61,11 @@ class BoletoController extends Controller
     public function show( $id)
     {
         //
+        $empresa = Empresa::findOrFail($id);
         $boleto = Boleto::find($id);
         return response()->json([
             "data" => $boleto,
+            "empresa" =>$empresa,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+//ruta para consultar por los administrador
+Route::apiResource('/administradores', 'AdministradorController');
+//ruta para consultar empresa
+Route::apiResource('/empresa', 'EmpresaController');

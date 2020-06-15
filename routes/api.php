@@ -24,4 +24,9 @@ Route::apiResource('/administradores', 'AdministradorController');
 Route::apiResource('/empresa', 'EmpresaController');
 //ruta para consultar auxiliar
 Route::apiResource('/auxiliar', 'AuxiliarController');
+//ruta para consultar boletero
+Route::apiResource('/boletero', 'BoleteroController');
+//ruta para consultar boleto
+Route::apiResource('/boleto', 'BoletoController');
+
 

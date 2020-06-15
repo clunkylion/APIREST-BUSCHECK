@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Administrador;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdministradorController extends Controller
 {
@@ -16,7 +17,11 @@ class AdministradorController extends Controller
     public function index()
     {
         //para retornar todos los administradores
-        return Administrador::all();
+        $administradores = Administrador::all();
+        return response()->json([
+            "data" => $administradores,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -44,7 +49,11 @@ class AdministradorController extends Controller
         //almacenar un administrador
         //se crean con lo que trae request;
         $admin = Administrador::create($request->all());
-        return $admin;
+        return response()->json([
+            "message" => "Administrador creado correctamente",
+            "data" => $admin,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -54,10 +63,13 @@ class AdministradorController extends Controller
      * @return \Illuminate\Http\Response
      */
     //acá se muestra por identificador
-    public function show(Administrador $administrador)
+    public function show($id)
     {
-        // 
-        return $administrador;
+        $admin = Administrador::find($id);
+        return response()->json([
+            "data" => $admin,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -80,11 +92,16 @@ class AdministradorController extends Controller
      * @return \Illuminate\Http\Response
      */
     //acá se ocupa para editar
-    public function update(Request $request, Administrador $administrador)
-    {
-        //
-        $administrador->update($request->all());
-        return $administrador;
+    public function update($id, Request $request){
+        $admin = Administrador::find($id);
+        $admin->update($request->all());
+        return response()->json([
+            "message" => "Administrador actualizado correctamente",
+            "data" => $admin,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
+        // $administrador->update($admin->all());
+        // return $administrador;
     }
 
     /**
@@ -98,6 +115,9 @@ class AdministradorController extends Controller
     {
         //
         $administrador->delete();
-        return $administrador;
+        return response()->json([
+            "message" => "Administrador eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

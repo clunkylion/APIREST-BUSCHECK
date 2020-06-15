@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Auxiliar;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuxiliarController extends Controller
 {
@@ -15,6 +16,11 @@ class AuxiliarController extends Controller
     public function index()
     {
         //
+        $auxiliar = Auxiliar::all();
+        return response()->json([
+            "data" => $auxiliar,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -36,6 +42,12 @@ class AuxiliarController extends Controller
     public function store(Request $request)
     {
         //
+        $auxiliar = Auxiliar::create($request->all());
+        return response()->json([
+            "message" => "Administrador creado correctamente",
+            "data" => $auxiliar,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +56,14 @@ class AuxiliarController extends Controller
      * @param  \App\Auxiliar  $auxiliar
      * @return \Illuminate\Http\Response
      */
-    public function show(Auxiliar $auxiliar)
+    public function show($id)
     {
         //
+        $auxiliar = Auxiliar::find($id);
+        return response()->json([
+            "data" => $auxiliar,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -67,9 +84,16 @@ class AuxiliarController extends Controller
      * @param  \App\Auxiliar  $auxiliar
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Auxiliar $auxiliar)
+    public function update($id, Request $request)
     {
         //
+        $auxiliar = Auxiliar::find($id);
+        $auxiliar->update($request->all());
+        return response()->json([
+            "message" => "Administrador actualizado correctamente",
+            "data" => $auxiliar,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -81,5 +105,10 @@ class AuxiliarController extends Controller
     public function destroy(Auxiliar $auxiliar)
     {
         //
+        $auxiliar->delete();
+        return response()->json([
+            "message" => "Administrador eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

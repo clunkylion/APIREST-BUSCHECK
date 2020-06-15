@@ -22,3 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/administradores', 'AdministradorController');
 //ruta para consultar empresa
 Route::apiResource('/empresa', 'EmpresaController');
+//ruta para consultar auxiliar
+Route::apiResource('/auxiliar', 'AuxiliarController');
+

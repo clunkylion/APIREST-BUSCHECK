@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Boleto;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BoletoController extends Controller
 {
@@ -15,6 +16,11 @@ class BoletoController extends Controller
     public function index()
     {
         //
+        $boleto = Boleto::all();
+        return response()->json([
+            "data" => $boleto,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -36,6 +42,12 @@ class BoletoController extends Controller
     public function store(Request $request)
     {
         //
+        $boleto = Boleto::create($request->all());
+        return response()->json([
+            "message" => "Boleto generado correctamente",
+            "data" => $boleto,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +56,14 @@ class BoletoController extends Controller
      * @param  \App\Boleto  $boleto
      * @return \Illuminate\Http\Response
      */
-    public function show(Boleto $boleto)
+    public function show( $id)
     {
         //
+        $boleto = Boleto::find($id);
+        return response()->json([
+            "data" => $boleto,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -67,9 +84,16 @@ class BoletoController extends Controller
      * @param  \App\Boleto  $boleto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Boleto $boleto)
+    public function update($id, Request $request)
     {
         //
+        $boleto = Boleto::find($id);
+        $boleto->update($request->all());
+        return response()->json([
+            "message" => "Boleto actualizado correctamente",
+            "data" => $boleto,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -81,5 +105,10 @@ class BoletoController extends Controller
     public function destroy(Boleto $boleto)
     {
         //
+        $boleto->delete();
+        return response()->json([
+            "message" => "Boleto eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

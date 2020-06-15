@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Boletero;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BoleteroController extends Controller
 {
@@ -15,27 +16,23 @@ class BoleteroController extends Controller
     public function index()
     {
         //
+        $boletero = Boletero::all();
+        return response()->json([
+            "data" => $boletero,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         //
+        $boletero = Boletero::create($request->all());
+        return response()->json([
+            "message" => "Boletero creado correctamente",
+            "data" => $boletero,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +41,14 @@ class BoleteroController extends Controller
      * @param  \App\Boletero  $boletero
      * @return \Illuminate\Http\Response
      */
-    public function show(Boletero $boletero)
+    public function show( $id)
     {
         //
+        $boletero = Boletero::find($id);
+        return response()->json([
+            "data" => $boletero,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -67,9 +69,16 @@ class BoleteroController extends Controller
      * @param  \App\Boletero  $boletero
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Boletero $boletero)
+    public function update($id,Request $request)
     {
         //
+        $boletero = Boletero::find($id);
+        $boletero->update($request->all());
+        return response()->json([
+            "message" => "Boletero actualizado correctamente",
+            "data" => $boletero,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -81,5 +90,10 @@ class BoleteroController extends Controller
     public function destroy(Boletero $boletero)
     {
         //
+        $boletero->delete();
+        return response()->json([
+            "message" => "Boletero eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

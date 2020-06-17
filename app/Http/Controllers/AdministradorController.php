@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Administrador;
+use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,11 +49,25 @@ class AdministradorController extends Controller
     public function store(Request $request)
     {
         //almacenar un administrador
-        //se crean con lo que trae request;
-        /*$persona = DB::table('users')->insert(array(
-            "nombre" => $request->input()
-        ));*/
-        $admin = Administrador::create($request->all());
+        $persona = Persona::create([
+            "rut" => $request->input('rut'),
+            "nombre" => $request->input('nombre'),
+            "apellido" => $request->input('apellido'),
+            "telefono" => $request->input('telefono'),
+            "correo" => $request->input('correo'),
+            "sexo" => $request->input('sexo'),
+            "fechaNacimiento" => $request->input('fechaNacimiento'),
+            "tipoPersona" => $request->input('tipoPersona')
+        ]);
+        $admin = Administrador::create([
+            "nombreUsuario" => $request->input('nombreUsuario'),
+            "contraseña" => $request->input('password'),
+            "ultimoInicioSesion" => $request->input('ultimaSesion'),
+            "estadoAdmin" => $request->input('estadoAdmin'),
+            "idEmpresa" => $request->input('idEmpresa'),
+            "idPersona" => $persona->id
+        ]);
+
         return response()->json([
             "message" => "Administrador creado correctamente",
             "data" => $admin,
@@ -98,7 +113,23 @@ class AdministradorController extends Controller
     //acá se ocupa para editar
     public function update($id, Request $request){
         $admin = Administrador::find($id);
-        $admin->update($request->all());
+        $idPersona = $admin->idPersona;
+        $persona = Persona::find($idPersona);
+        $persona->update([
+            "rut" => $request->input('rut'),
+            "nombre" => $request->input('nombre'),
+            "apellido" => $request->input('apellido'),
+            "telefono" => $request->input('telefono'),
+            "correo" => $request->input('correo'),
+            "sexo" => $request->input('sexo'),
+            "fechaNacimiento" => $request->input('fechaNacimiento'),
+            "tipoPersona" => $request->input('tipoPersona') 
+        ]);
+        $admin->update([
+            "nombreUsuario" => $request->input('nombreUsuario'),
+            "contraseña" => $request->input('password'),
+            "estadoAdmin" => $request->input('estado')
+        ]);
         return response()->json([
             "message" => "Administrador actualizado correctamente",
             "data" => $admin,

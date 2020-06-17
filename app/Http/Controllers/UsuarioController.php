@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Chofer;
 use App\Persona;
+use App\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
-class ChoferController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,13 +16,11 @@ class ChoferController extends Controller
      */
     public function index()
     {
-        //inner joir con elocuent 
-        //seleciona la tabla chofers y hace el inner join en la tabla personas cuando
-        //el id de la persona sea igual al idPersona de la tabla Chofers
-        $chofer = DB::table('chofers')->
-        join('personas','personas.id', '=', 'chofers.idPersona')->get();
+        //
+        $usuarios = Usuario::all();
         return response()->json([
-            "data" => $chofer,
+            "message" => "Lista de Usuarios",
+            "data" => $usuarios,
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);
     }
@@ -46,7 +43,6 @@ class ChoferController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $persona = Persona::create([
             "rut" => $request->input('rut'),
             "nombre" => $request->input('nombre'),
@@ -57,42 +53,44 @@ class ChoferController extends Controller
             "fechaNacimiento" => $request->input('fechaNacimiento'),
             "tipoPersona" => $request->input('tipoPersona')
         ]);
-        $chofer = Chofer::create([
-            "estadoChofer" => $request->input('estado'),
+        $usuario = Usuario::create([
+            "nombreUsuario" => $request->input('nombreUsuario'),
+            "contraseña" => $request->input('password'),
+            "ultimoInicioSesion" => $request->input('ultimaSesion'),
+            "estadoUsuario" => $request->input('estado'),
             "idEmpresa" => $request->input('idEmpresa'),
             "idPersona" => $persona->id
         ]);
-
         return response()->json([
-            "message" => "Chofer creado correctamente",
-            "data" => $chofer,
+            "message" => "Usuario creado correctamente",
+            "data" => $usuario,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Chofer  $chofer
+     * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $chofer = Chofer::find($id);
+        //
+        $usuario = Usuario::find($id);
         return response()->json([
-            "data" => $chofer,
+            "data" => $usuario,
             "status" => Response::HTTP_OK
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Chofer  $chofer
+     * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chofer $chofer)
+    public function edit(Usuario $usuario)
     {
         //
     }
@@ -101,14 +99,14 @@ class ChoferController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Chofer  $chofer
+     * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update($id ,Request $request)
+    public function update($id, Request $request)
     {
         //
-        $chofer = Chofer::find($id);
-        $idPersona = $chofer->idPersona;
+        $usuario = Usuario::find($id);
+        $idPersona = $usuario->idPersona;
         $persona = Persona::find($idPersona);
         $persona->update([
             "rut" => $request->input('rut'),
@@ -120,12 +118,13 @@ class ChoferController extends Controller
             "fechaNacimiento" => $request->input('fechaNacimiento'),
             "tipoPersona" => $request->input('tipoPersona') 
         ]);
-        $chofer->update([
-            "estadoChofer" => $request->input('estado'),
+        $usuario->update([
+            "nombreUsuario" => $request->input('nombreUsuario'),
+            "contraseña" => $request->input('password'),
         ]);
         return response()->json([
-            "message" => "Chofer actualizado correctamente",
-            "data" => $chofer,
+            "message" => "Usuario actualizado correctamente",
+            "data" => $usuario,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }
@@ -133,11 +132,16 @@ class ChoferController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Chofer  $chofer
+     * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chofer $chofer)
+    public function destroy(Usuario $usuario)
     {
         //
+        $usuario->delete();
+        return response()->json([
+            "message" => "Usuario eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

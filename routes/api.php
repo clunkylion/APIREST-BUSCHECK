@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/administradores', 'AdministradorController');
 //ruta para consultar empresa
 Route::apiResource('/empresa', 'EmpresaController');
-//ruta para consultar auxiliar
-Route::apiResource('/auxiliar', 'AuxiliarController');
-//ruta para consultar boletero
-Route::apiResource('/boletero', 'BoleteroController');
 //ruta para consultar boleto
 Route::apiResource('/boleto', 'BoletoController');
+//ruta para consultar cliente
+Route::apiResource('/cliente', 'ClienteController');
+//ruta para consultar cliente
+Route::apiResource('/usuario', 'UsuarioController');
+//ruta para consultar cliente
+Route::apiResource('/chofer', 'ChoferController');
 
 

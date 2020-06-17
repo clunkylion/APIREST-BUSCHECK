@@ -19,6 +19,6 @@ class Boleto extends Model
     }
     public function empresa()
     {
-        return $this->belongsTo('App\Boletero', 'idEmpresa');
+        return $this->belongsTo('App\Usuario', 'idEmpresa');
     }
 }

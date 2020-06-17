@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
+use App\Persona;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClienteController extends Controller
 {
@@ -15,6 +17,11 @@ class ClienteController extends Controller
     public function index()
     {
         //
+        $cliente = Cliente::all();
+        return response()->json([
+            "data" => $cliente,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -36,6 +43,26 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         //
+        $persona = Persona::create([
+            "rut" => $request->input('rut'),
+            "nombre" => $request->input('nombre'),
+            "apellido" => $request->input('apellido'),
+            "telefono" => $request->input('telefono'),
+            "correo" => $request->input('correo'),
+            "sexo" => $request->input('sexo'),
+            "fechaNacimiento" => $request->input('fechaNacimiento'),
+            "tipoPersona" => $request->input('tipoPersona')
+        ]);
+        $cliente = Cliente::create([
+            "tipoCliente" => $request->input('tipoCliente'),
+            "idPersona" => $persona->id
+        ]);
+
+        return response()->json([
+            "message" => "Cliente creado correctamente",
+            "data" => $cliente,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +71,14 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function show(Cliente $cliente)
+    public function show($id)
     {
         //
+        $cliente = Cliente::find($id);
+        return response()->json([
+            "data" => $cliente,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -67,9 +99,31 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update($id,Request $request)
     {
         //
+        $cliente = Cliente::find($id);
+        $idPersona = $cliente->idPersona;
+        $persona = Persona::find($idPersona);
+        $persona->update([
+            "rut" => $request->input('rut'),
+            "nombre" => $request->input('nombre'),
+            "apellido" => $request->input('apellido'),
+            "telefono" => $request->input('telefono'),
+            "correo" => $request->input('correo'),
+            "sexo" => $request->input('sexo'),
+            "fechaNacimiento" => $request->input('fechaNacimiento'),
+            "tipoPersona" => $request->input('tipoPersona') 
+        ]);
+        $cliente->update([
+            "tipoCliente" => $request->input('tipoCliente')
+        ]);
+        return response()->json([
+            "message" => "Cliente actualizado correctamente",
+            "data" => $cliente,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
+
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empresa;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EmpresaController extends Controller
 {
@@ -38,7 +39,11 @@ class EmpresaController extends Controller
     {
         //
         $empresa = Empresa::create($request->all());
-        return $empresa;
+        return response()->json([
+            "message" => "Empresa creada correctamente",
+            "data" => $empresa,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**

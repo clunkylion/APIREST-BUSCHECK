@@ -23,8 +23,8 @@ class CreateBusesTable extends Migration
             $table->integer('numAsientos');
             $table->string('revisionTecnica', 30);
             $table->unsignedBigInteger('idChofer');
-            
             $table->unsignedBigInteger('idEmpresa');
+            
             $table->foreign('idChofer')->references('id')->on('chofers');
             $table->foreign('idEmpresa')->references('idEmpresa')->on('chofers');
         });

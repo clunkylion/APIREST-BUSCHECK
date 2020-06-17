@@ -8,18 +8,18 @@ class Administrador extends Model
 {
     //campos llenables
     protected $fillable = [
-        'rutAdmin',
-        'nombreAdmin',
-        'apellidoAdmin',
-        'telefonoAdmin',
-        'correoAdmin',
-        'sexoAdmin',
-        'fechaNacimiento',
-        'nombreUsuario',
-        'contraseñaAdmin',
-        'ultimoInicioSesion',
-        'estadoAdmin',
-        'idEmpresa'
+        "rutAdmin",
+        "nombreAdmin",
+        "apellidoAdmin",
+        "telefonoAdmin",
+        "correoAdmin",
+        "sexoAdmin",
+        "fechaNacimiento",
+        "nombreUsuario",
+        "contraseñaAdmin",
+        "ultimoInicioSesion",
+        "estadoAdmin",
+        "idEmpresa"
     ];
     public function empresa()
     {

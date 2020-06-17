@@ -13,6 +13,7 @@ class AuxiliarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
@@ -102,6 +103,7 @@ class AuxiliarController extends Controller
      * @param  \App\Auxiliar  $auxiliar
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy(Auxiliar $auxiliar)
     {
         //

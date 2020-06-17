@@ -16,17 +16,9 @@ class CreateChofersTable extends Migration
         Schema::create('chofers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('rutChofer', 20);
-            $table->string('nombreChofer', 30);
-            $table->string('apellidoChofer', 30);
-            $table->string('telefonoChofer', 20);
-            $table->string('correoChofer', 60);
-            $table->string('sexoChofer', 30);
-            $table->string('fechaNacimiento', 50);
-            $table->string('nombreUsuario', 50);
-            $table->string('contraseñaChofer', 50);
-            $table->string('ultimoInicioSesion', 50);
+            $table->integer('estadoChofer');
             $table->unsignedBigInteger('idEmpresa');
+
             $table->foreign('idEmpresa')->references('id')->on('empresas');
         });
     }

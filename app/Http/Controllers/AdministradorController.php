@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Administrador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdministradorController extends Controller
@@ -48,6 +49,9 @@ class AdministradorController extends Controller
     {
         //almacenar un administrador
         //se crean con lo que trae request;
+        /*$persona = DB::table('users')->insert(array(
+            "nombre" => $request->input()
+        ));*/
         $admin = Administrador::create($request->all());
         return response()->json([
             "message" => "Administrador creado correctamente",

@@ -16,20 +16,16 @@ class CreateAdministradorsTable extends Migration
         Schema::create('administradors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('rutAdmin', 15)->unique();
-            $table->string('nombreAdmin', 30);
-            $table->string('apellidoAdmin', 30);
-            $table->string('telefonoAdmin', 15);
-            $table->string('correoAdmin', 100);
-            $table->string('sexoAdmin', 30);
-            $table->string('fechaNacimiento', 40);
             $table->string('nombreUsuario', 50);
-            $table->string('contraseñaAdmin', 50);
+            $table->string('contraseña', 50);
             $table->string('ultimoInicioSesion');
             $table->integer('estadoAdmin');
             $table->unsignedBigInteger('idEmpresa');
+            //
 
             $table->foreign('idEmpresa')->references('id')->on('empresas');
+            //
+
         });
     }
 

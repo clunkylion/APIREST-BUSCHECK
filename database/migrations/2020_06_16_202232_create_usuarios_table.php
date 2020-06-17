@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuxiliarsTable extends Migration
+class CreateUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,19 @@ class CreateAuxiliarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('auxiliars', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('rutAuxiliar', 15);
-            $table->string('nombreAuxiliar', 50);
-            $table->string('apellidoAuxiliar', 50);
-            $table->string('telefonoAuxiliar', 20);
-            $table->string('correoAuxiliar', 50);
-            $table->string('sexoAuxiliar', 30);
-            $table->string('fechaNacimiento', 50);
-            $table->string('nombreUsuario', 50);
-            $table->string('contraseñaAuxiliar', 50);
+            $table->string('nombreUsuario');
+            $table->string('contraseña');
             $table->string('ultimoInicioSesion');
+            $table->integer('estadoUsuario');
             $table->unsignedBigInteger('idEmpresa');
+            $table->unsignedBigInteger('idPersona');
+            
             $table->foreign('idEmpresa')->references('id')->on('empresas');
+            $table->foreign('idPersona')->references('id')->on('personas');
+
         });
     }
 
@@ -38,6 +36,6 @@ class CreateAuxiliarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auxiliars');
+        Schema::dropIfExists('usuarios');
     }
 }

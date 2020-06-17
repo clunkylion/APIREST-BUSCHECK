@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Auxiliar;
+use App\Persona;
 use Faker\Generator as Faker;
 
-$factory->define(Auxiliar::class, function (Faker $faker) {
+$factory->define(Persona::class, function (Faker $faker) {
     return [
         //
     ];

@@ -10,18 +10,12 @@ class Boleto extends Model
     protected $fillable = [
         "precio",
         "numeroSerie",
-        "idBoletero",
-        "idAuxiliar",
+        "idUsuario",
         "idEmpresa"
     ];
-    public function boletero()
+    public function usuario()
     {
-        return $this->belongsTo('App\Boletero', 'idBoletero');
-    }
-    
-    public function auxiliar()
-    {
-        return $this->belongsTo('App\Auxiliar', 'idAuxiliar');
+        return $this->belongsTo('App\Usuario', 'idUsuario');
     }
     public function empresa()
     {

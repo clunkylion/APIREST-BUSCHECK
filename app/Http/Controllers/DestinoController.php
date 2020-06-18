@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Destino;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DestinoController extends Controller
 {
@@ -15,18 +16,14 @@ class DestinoController extends Controller
     public function index()
     {
         //
+        $destino = Destino::all();
+        return response()->json([
+            "data" =>$destino, 
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -36,6 +33,12 @@ class DestinoController extends Controller
     public function store(Request $request)
     {
         //
+        $destino = Destino::create($request->all());
+        return response()->json([
+            "message" => "Destino Creado Correctamente",
+            "data" => $destino,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +47,14 @@ class DestinoController extends Controller
      * @param  \App\Destino  $destino
      * @return \Illuminate\Http\Response
      */
-    public function show(Destino $destino)
+    public function show($id)
     {
-        //
+        $destino = Destino::find($id);
+        return response()->json([
+            "data" => $destino,
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
+
     }
 
     /**
@@ -67,9 +75,16 @@ class DestinoController extends Controller
      * @param  \App\Destino  $destino
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Destino $destino)
+    public function update($id,Request $request)
     {
         //
+        $destino = Destino::find($id);
+        $destino->update($request->all());
+        return response()->json([
+            "message" => "Destino Actualizado Correctamente",
+            "data" => $destino,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -81,5 +96,10 @@ class DestinoController extends Controller
     public function destroy(Destino $destino)
     {
         //
+        $destino->delete();
+        return response()->json([
+            "message" => "Destino eliminado Correctamente",
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 }

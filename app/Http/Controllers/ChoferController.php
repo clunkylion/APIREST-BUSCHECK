@@ -20,8 +20,7 @@ class ChoferController extends Controller
         //inner joir con elocuent 
         //seleciona la tabla chofers y hace el inner join en la tabla personas cuando
         //el id de la persona sea igual al idPersona de la tabla Chofers
-        $chofer = DB::table('chofers')->
-        join('personas','personas.id', '=', 'chofers.idPersona')->get();
+        $chofer = DB::table('chofers')->join('personas','personas.id', '=', 'chofers.idPersona')->get();
         return response()->json([
             "data" => $chofer,
             "status" => Response::HTTP_OK
@@ -80,8 +79,11 @@ class ChoferController extends Controller
     public function show($id)
     {
         $chofer = Chofer::find($id);
+        $idPersona = $chofer->idPersona;
+        $persona = Persona::find($idPersona);
         return response()->json([
-            "data" => $chofer,
+            "PersonaData" => $persona,
+            "ChoferData" => $chofer,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

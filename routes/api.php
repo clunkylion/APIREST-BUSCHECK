@@ -26,9 +26,17 @@ Route::apiResource('/empresa', 'EmpresaController');
 Route::apiResource('/boleto', 'BoletoController');
 //ruta para consultar cliente
 Route::apiResource('/cliente', 'ClienteController');
-//ruta para consultar cliente
+//ruta para consultar usuario
 Route::apiResource('/usuario', 'UsuarioController');
-//ruta para consultar cliente
+//ruta para consultar chofer
 Route::apiResource('/chofer', 'ChoferController');
+//ruta para consultar origer
+Route::apiResource('/origen', 'OrigenController');
+//ruta para consultar destino
+Route::apiResource('/destino', 'DestinoController');
+//ruta para consultar horario
+Route::apiResource('/horario', 'HorarioController');
+//ruta para consultar buses
+Route::apiResource('/buses', 'BusController');
 
 

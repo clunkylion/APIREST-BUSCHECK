@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Persona;
 use App\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsuarioController extends Controller
@@ -17,10 +18,10 @@ class UsuarioController extends Controller
     public function index()
     {
         //
-        $usuarios = Usuario::all();
+        $usuarios = DB::table('usuarios')->join('personas', 'personas.id', '=', 'usuarios.idPersona')->get();
         return response()->json([
             "message" => "Lista de Usuarios",
-            "data" => $usuarios,
+            "Data" => $usuarios,
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);
     }
@@ -78,8 +79,11 @@ class UsuarioController extends Controller
     {
         //
         $usuario = Usuario::find($id);
+        $idPersona = $usuario->idPersona;
+        $persona = Persona::find($idPersona);
         return response()->json([
-            "data" => $usuario,
+            "PersonaData" => $persona,
+            "UsuarioData" => $usuario,
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);
     }

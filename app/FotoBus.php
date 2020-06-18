@@ -8,7 +8,7 @@ class FotoBus extends Model
 {
     //
     protected $fillable = [
-        "estado",
+        //"estado",
         "foto",
         "idBus",
         "idChofer",

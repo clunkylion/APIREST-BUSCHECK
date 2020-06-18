@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Bus;
+use App\Butaca;
+use App\Chofer;
+use App\Empresa;
+use App\FotoBus;
+use App\Horario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class BusController extends Controller
 {
@@ -15,16 +22,12 @@ class BusController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $buses = DB::table('buses')->join('chofers', 'chofers.id', '=', 'buses.idChofer')
+        ->join('horarios', 'horarios.id' ,'=' , 'buses.idHorario')
+        ->get();
+        $chofer = DB::table('chofers')->join('personas', 'personas.id', '=', 'chofers.idPersona');
+        dd($chofer);
+        die();
     }
 
     /**
@@ -36,6 +39,38 @@ class BusController extends Controller
     public function store(Request $request)
     {
         //
+        //
+        $bus = Bus::create([
+            "estado" => $request->input('estado'),
+            "patente" => $request->input('patente'),
+            "marca" => $request->input('marca'),
+            "modelo" => $request->input('modelo'),
+            "numAsientos" => $request->input('numAsientos'),
+            "revisionTecnica" => $request->input('revisionTecnica'),
+            "idChofer" => $request->input('idChofer'),
+            "idHorario" => $request->input('idHorario'),
+            "idEmpresa" => $request->input('idEmpresa')
+        ]);
+        $fotoBus = FotoBus::create([
+            //"estado" => $request->input('estado'),
+            "foto" => $request->input('foto'),
+            "idBus" => $bus->id,
+            "idChofer" => $bus->idChofer,
+            "idEmpresa" => $bus->idEmpresa
+        ]);
+        $butaca = Butaca::create([
+            "numero" => $request->input('numeroButacas'),
+            "idBus" => $bus->id,
+            "idChofer" => $bus->idChofer,
+            "idEmpresa" => $bus->idEmpresa
+        ]);
+        return response()->json([
+            "message" => "Nuevo Bus Registrado",
+            "data" => $bus, 
+            "Foto" => $fotoBus, 
+            "Butacas" => $butaca, 
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -44,21 +79,21 @@ class BusController extends Controller
      * @param  \App\Bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function show(Bus $bus)
+    public function show($id)
     {
-        //
+        $bus = Bus::find($id);
+        $chofer = Chofer::find($bus->idChofer);
+        $empresa = Empresa::find($bus->idEmpresa);
+        $horario = Horario::find($bus->idHorario);
+        return response()->json([
+            "busData" => $bus,
+            "choferData" => $chofer,
+            "empresaData" => $empresa,
+            "horarioData" => $horario,
+            "status" => Response::HTTP_OK
+        ],Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Bus  $bus
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bus $bus)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +102,32 @@ class BusController extends Controller
      * @param  \App\Bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bus $bus)
+    public function update($id, Request $request)
     {
-        //
+        
+        $bus = Bus::find($id);
+        $bus->update([
+            "estado" => $request->input('estado'),
+            "patente" => $request->input('patente'),
+            "marca" => $request->input('marca'),
+            "modelo" => $request->input('modelo'),
+            "numAsientos" => $request->input('numAsientos'),
+            "revisionTecnica" => $request->input('revisionTecnica'),
+            "idChofer" => $request->input('idChofer'),
+            "idHorario" => $request->input('idHorario'),
+            "idEmpresa" => $request->input('idEmpresa')
+        ]);
+        /*$butaca = DB::table('users')([
+            "numero" => $request->input('numeroButacas'),
+            "idBus" => $bus->id,
+            "idChofer" => $bus->idChofer,
+            "idEmpresa" => $bus->idEmpresa
+        ]);*/
+        return response()->json([
+            "message" => "Datos de bus actualizados",
+            "data" => $bus, 
+            "status" => Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**

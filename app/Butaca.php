@@ -8,7 +8,7 @@ class Butaca extends Model
 {
     //
     protected $fillable = [
-        "estado",
+        //"estado",
         "numero",
         "idBus",
         "idChofer",

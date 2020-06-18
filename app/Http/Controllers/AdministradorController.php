@@ -19,7 +19,8 @@ class AdministradorController extends Controller
     public function index()
     {
         //para retornar todos los administradores
-        $administradores = Administrador::all();
+
+        $administradores = DB::table('administradors')->join('personas', 'personas.id', '=', 'administradors.idPersona')->get();
         return response()->json([
             "data" => $administradores,
             "status" => Response::HTTP_OK
@@ -85,8 +86,11 @@ class AdministradorController extends Controller
     public function show($id)
     {
         $admin = Administrador::find($id);
+        $idPersona = $admin->idPersona;
+        $persona = Persona::find($idPersona);
         return response()->json([
-            "data" => $admin,
+            "Personadata" => $persona,
+            "AdminData" => $admin,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

@@ -19,11 +19,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //ruta para consultar por los administrador
-Route::apiResource('/administradores', 'AdministradorController');
+Route::apiResource('/admin', 'AdministradorController');
 //ruta para consultar empresa
 Route::apiResource('/empresa', 'EmpresaController');
 //ruta para consultar boleto
 Route::apiResource('/boleto', 'BoletoController');
+//ruta para consultar cliente
+Route::apiResource('/totalventa', 'TotalVentaController');
 //ruta para consultar cliente
 Route::apiResource('/cliente', 'ClienteController');
 //ruta para consultar usuario
@@ -38,5 +40,6 @@ Route::apiResource('/destino', 'DestinoController');
 Route::apiResource('/horario', 'HorarioController');
 //ruta para consultar buses
 Route::apiResource('/buses', 'BusController');
-
+//ruta para consultar buses
+Route::apiResource('/fotobuses', 'FotoBusController');
 

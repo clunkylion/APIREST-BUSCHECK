@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TotalBoleta extends Model
+class TotalVenta extends Model
 {
     //
     protected $fillable = [
@@ -33,6 +33,6 @@ class TotalBoleta extends Model
     }
     public function empresa()
     {
-        return $this->belongsTo('App\Boletero', 'idEmpresa');
+        return $this->belongsTo('App\Usuario', 'idEmpresa');
     }
 }

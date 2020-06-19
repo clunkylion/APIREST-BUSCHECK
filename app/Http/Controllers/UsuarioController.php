@@ -78,12 +78,11 @@ class UsuarioController extends Controller
     public function show($id)
     {
         //
-        $usuario = Usuario::find($id);
-        $idPersona = $usuario->idPersona;
-        $persona = Persona::find($idPersona);
+        $usuario = DB::table('usuarios')
+        ->join('personas', 'personas.id', '=', 'usuarios.idPersona')
+        ->where('usuarios.id', '=', $id)->get();
         return response()->json([
-            "PersonaData" => $persona,
-            "UsuarioData" => $usuario,
+            "data" => $usuario,
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);
     }

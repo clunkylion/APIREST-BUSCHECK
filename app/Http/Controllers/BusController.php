@@ -25,9 +25,12 @@ class BusController extends Controller
         $buses = DB::table('buses')->join('chofers', 'chofers.id', '=', 'buses.idChofer')
         ->join('horarios', 'horarios.id' ,'=' , 'buses.idHorario')
         ->get();
-        $chofer = DB::table('chofers')->join('personas', 'personas.id', '=', 'chofers.idPersona');
-        dd($chofer);
-        die();
+        $chofer = DB::table('chofers')->join('personas','personas.id', '=', 'chofers.idPersona')->get();
+        return response()->json([
+            "BusesData" =>$buses,
+            "ChoferData" =>$chofer,
+            "status" =>Response::HTTP_OK
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -51,13 +54,21 @@ class BusController extends Controller
             "idHorario" => $request->input('idHorario'),
             "idEmpresa" => $request->input('idEmpresa')
         ]);
-        $fotoBus = FotoBus::create([
-            //"estado" => $request->input('estado'),
-            "foto" => $request->input('foto'),
-            "idBus" => $bus->id,
-            "idChofer" => $bus->idChofer,
-            "idEmpresa" => $bus->idEmpresa
-        ]);
+        //rescartar foto de formulario
+        $rutaFoto = public_path('FotoBuses/Bus'.$bus->id);
+        $fotoArray = $request->file('foto');
+        $fotosCant = count($fotoArray);
+        for ($i=0; $i <$fotosCant ; $i++) { 
+            $urlFoto = 'bus/'.$bus->id.'.'.$fotoArray[$i]->extension();
+            $fotoArray[$i]->move($rutaFoto, $urlFoto);
+            $fotos = FotoBus::create([
+                //"estado" => $request->input('estado'),
+                "foto" => $fotoArray[$i],
+                "idBus" => $bus->id,
+                "idChofer" => $bus->idChofer,
+                "idEmpresa" => $bus->idEmpresa
+                ]);
+        }
         $butaca = Butaca::create([
             "numero" => $request->input('numeroButacas'),
             "idBus" => $bus->id,
@@ -66,8 +77,8 @@ class BusController extends Controller
         ]);
         return response()->json([
             "message" => "Nuevo Bus Registrado",
-            "data" => $bus, 
-            "Foto" => $fotoBus, 
+            "data" => $bus,
+            "fotos" => $fotoArray,
             "Butacas" => $butaca, 
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);

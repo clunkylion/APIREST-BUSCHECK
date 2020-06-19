@@ -6,6 +6,7 @@ use App\Auxiliar;
 use App\Boleto;
 use App\Empresa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class BoletoController extends Controller
@@ -18,7 +19,7 @@ class BoletoController extends Controller
     public function index()
     {
         //
-        $boleto = Boleto::all();
+        $boleto = DB::table('boletos')->join('usuarios', 'usuarios.id', '=', 'boletos.idUsuario')->get();
         return response()->json([
             "data" => $boleto,
             "status" => Response::HTTP_OK

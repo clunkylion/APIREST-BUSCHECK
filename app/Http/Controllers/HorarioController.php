@@ -68,15 +68,12 @@ class HorarioController extends Controller
      */
     public function show($id)
     {
-        $horario = Horario::find($id);
-        $idOrigen = $horario->idOrigen;
-        $idDestino = $horario->idDestino;
-        $origen = Origen::find($idOrigen);
-        $destino = Destino::find($idDestino);
+        $horario = DB::table('horarios')
+        ->join('origens', 'origens.id', '=', 'horarios.idOrigen')
+        ->join('destinos', 'destinos.id', '=', 'horarios.idDestino')
+        ->where('horarios.id', '=', $id)->get();
         return response()->json([
-            "horario" => $horario,
-            "origen" => $origen,
-            "destino" => $destino,
+            "data" => $horario,
             "status" => Response::HTTP_OK
         ], Response::HTTP_OK);
     }

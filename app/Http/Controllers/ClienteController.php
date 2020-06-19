@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cliente;
 use App\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClienteController extends Controller
@@ -74,7 +75,9 @@ class ClienteController extends Controller
     public function show($id)
     {
         //
-        $cliente = Cliente::find($id);
+        $cliente =DB::table('clientes')
+        ->join('personas', 'personas.id', '=' , 'clientes.idPersona')
+        ->where('clientes.id', '=', $id)->get();
         return response()->json([
             "data" => $cliente,
             "status" => Response::HTTP_OK

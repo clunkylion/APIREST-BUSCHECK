@@ -85,12 +85,11 @@ class AdministradorController extends Controller
     //acá se muestra por identificador
     public function show($id)
     {
-        $admin = Administrador::find($id);
-        $idPersona = $admin->idPersona;
-        $persona = Persona::find($idPersona);
+        $admin =DB::table('administradors')
+        ->join('personas', 'personas.id', '=' , 'administradors.idPersona')
+        ->where('administradors.id', '=', $id)->get();
         return response()->json([
-            "Personadata" => $persona,
-            "AdminData" => $admin,
+            "data" => $admin,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

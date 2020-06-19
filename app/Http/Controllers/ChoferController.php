@@ -78,12 +78,11 @@ class ChoferController extends Controller
      */
     public function show($id)
     {
-        $chofer = Chofer::find($id);
-        $idPersona = $chofer->idPersona;
-        $persona = Persona::find($idPersona);
+        $chofer =DB::table('chofers')
+        ->join('personas', 'personas.id', '=' , 'chofers.idPersona')
+        ->where('chofers.id', '=', $id)->get();
         return response()->json([
-            "PersonaData" => $persona,
-            "ChoferData" => $chofer,
+            "Data" => $chofer,
             "status" => Response::HTTP_OK
         ],Response::HTTP_OK);
     }

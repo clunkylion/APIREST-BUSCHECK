@@ -28,7 +28,7 @@ class AuthController extends Controller
                     return response()->json("Error en el Login", 401);
                 }
            }else{
-               return response()->json(['Error' => 'Contraseña o Nombre de usuario incorrecto'], 422);
+               return response()->json(['Error' => 'Contraseña o Nombre de Administrador incorrecto'], 422);
            }
         }elseif ($usuario) {
             if (Hash::check($request->clave, $usuario->contraseña)) {

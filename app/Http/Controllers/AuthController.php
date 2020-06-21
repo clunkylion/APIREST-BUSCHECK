@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Administrador;
+use App\Persona;
 use App\Usuario;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -46,30 +48,52 @@ class AuthController extends Controller
         }
         
     }
-}
-
-/*
-namespace App\Http\Controllers;
-
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
-
-class LoginController extends Controller
-{
-    //
-    public function login(){
-        $data = [
-            'email' => request('email'),
-            'password' => request('email')
-        ];
-        if (Auth::attempt($data)) {
-            $user = Auth::User();
-            $logginData['token'] = $user->createToken('auth-token')->accessToken;
-            return response()->json("Bienvenido", Response::HTTP_OK);
+    public function signUp(Request $request){
+        $persona = Persona::create([
+            "rut" => $request->input('rut'),
+            "nombre" => $request->input('nombre'),
+            "apellido" => $request->input('apellido'),
+            "telefono" => $request->input('telefono'),
+            "correo" => $request->input('correo'),
+            "sexo" => $request->input('sexo'),
+            "fechaNacimiento" => $request->input('fechaNacimiento'),
+            "tipoPersona" => $request->input('tipoPersona')
+        ]);
+        if ($request->input('tipoDeUsuario') == 'Administrador') {
+            $admin = Administrador::create([
+            "nombreUsuario" => $request->input('nombreUsuario'),
+            "contraseña" => Hash::make($request->input('password')),
+            "ultimoInicioSesion" => $request->input('ultimaSesion'),
+            "estadoAdmin" => $request->input('estado'),
+            "idEmpresa" => $request->input('idEmpresa'),
+            "idPersona" => $persona->id
+            ]);
+            return response()->json([
+                "message" => "Administrador creado correctamente",
+                "data" => $admin,
+                "status" => Response::HTTP_OK
+            ],Response::HTTP_OK);
+        }elseif ($request->input('tipoDeUsuario') == 'Usuario'){
+            $usuario = Usuario::create([
+                "nombreUsuario" => $request->input('nombreUsuario'),
+                "contraseña" => Hash::make($request->input('password')),
+                "ultimoInicioSesion" => $request->input('ultimaSesion'),
+                "estadoUsuario" => $request->input('estado'),
+                "idEmpresa" => $request->input('idEmpresa'),
+                "idPersona" => $persona->id
+            ]);
+            return response()->json([
+                "message" => "Usuario creado correctamente",
+                "data" => $usuario,
+                "status" => Response::HTTP_OK
+            ],Response::HTTP_OK);
         }else{
-            return response()->json("Error", 401);
+            return response()->json([
+                "message" => "Error al crear un Usuario",
+                "status" => Response::HTTP_INTERNAL_SERVER_ERROR
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+        
     }
 }
+

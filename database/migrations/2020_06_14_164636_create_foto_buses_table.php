@@ -16,7 +16,7 @@ class CreateFotoBusesTable extends Migration
         Schema::create('foto_buses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('estado', 50);
+            $table->string('estado', 50)->nullable();
             $table->string('foto');
             $table->unsignedBigInteger('idBus');
             $table->unsignedBigInteger('idChofer');

@@ -53,11 +53,17 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         
-        if ($exception instanceof NotFoundHttpException) {
+        if ($request->wantsJson()) {
+            if ($exception instanceof NotFoundHttpException) {
+                return response()->json([
+                    "message" => "No se ha encontrado el dato",
+                    "status" => Response::HTTP_NOT_FOUND
+                ], Response::HTTP_NOT_FOUND);
+            }
             return response()->json([
-                "message" => "No se ha encontrado el dato",
-                "status" => Response::HTTP_NOT_FOUND
-            ], Response::HTTP_NOT_FOUND);
+                "Error" => "Error en el servidor",
+                "status" => Response::HTTP_INTERNAL_SERVER_ERROR
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return parent::render($request, $exception);
     }

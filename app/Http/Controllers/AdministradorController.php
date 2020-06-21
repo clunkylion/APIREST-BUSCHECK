@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Administrador;
 use App\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\HasApiTokens;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdministradorController extends Controller
 {
+    use HasApiTokens, Notifiable;
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +66,7 @@ class AdministradorController extends Controller
         ]);
         $admin = Administrador::create([
             "nombreUsuario" => $request->input('nombreUsuario'),
-            "contraseña" => $request->input('password'),
+            "contraseña" => Hash::make($request->input('password')),
             "ultimoInicioSesion" => $request->input('ultimaSesion'),
             "estadoAdmin" => $request->input('estadoAdmin'),
             "idEmpresa" => $request->input('idEmpresa'),

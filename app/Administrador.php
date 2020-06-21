@@ -2,10 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
-class Administrador extends Model
+class Administrador extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
     //campos llenables
     protected $fillable = [
         "nombreUsuario",

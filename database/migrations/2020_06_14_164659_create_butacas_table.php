@@ -16,7 +16,7 @@ class CreateButacasTable extends Migration
         Schema::create('butacas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('estado', 60);
+            $table->string('estado', 60)->nullable();
             $table->integer('numero');
             $table->unsignedBigInteger('idBus');
             $table->unsignedBigInteger('idChofer');

@@ -2,11 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
-class Usuario extends Model
+
+class Usuario extends Authenticatable
 {
     //
+    use HasApiTokens, Notifiable;
+    
     protected $fillable = [
         "nombreUsuario",
         "contraseña",

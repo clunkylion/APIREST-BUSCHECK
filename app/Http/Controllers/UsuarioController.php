@@ -6,6 +6,7 @@ use App\Persona;
 use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsuarioController extends Controller
@@ -56,7 +57,7 @@ class UsuarioController extends Controller
         ]);
         $usuario = Usuario::create([
             "nombreUsuario" => $request->input('nombreUsuario'),
-            "contraseña" => $request->input('password'),
+            "contraseña" => Hash::make($request->input('password')),
             "ultimoInicioSesion" => $request->input('ultimaSesion'),
             "estadoUsuario" => $request->input('estado'),
             "idEmpresa" => $request->input('idEmpresa'),

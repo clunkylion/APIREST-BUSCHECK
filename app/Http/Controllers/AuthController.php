@@ -19,6 +19,7 @@ class AuthController extends Controller
         $usuario = Usuario::where('nombreUsuario', $request->nombreUsuario)->first();
         if ($admin) {
            if (Hash::check($request->clave, $admin->contraseña)) {
+               
                $token = $admin->createToken('Admin Token')->accessToken;
                if ($token) {
                     return response()->json([
@@ -31,6 +32,7 @@ class AuthController extends Controller
                return response()->json(['Error' => 'Contraseña o Nombre de Administrador incorrecto'], 422);
            }
         }elseif ($usuario) {
+
             if (Hash::check($request->clave, $usuario->contraseña)) {
                 $token = $usuario->createToken('Usuario Token')->accessToken;
                 if ($token) {

@@ -17,7 +17,7 @@ class CreateUsuariosTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('nombreUsuario');
-            $table->string('contraseña');
+            $table->string('contraseña', 200);
             $table->string('ultimoInicioSesion');
             $table->integer('estadoUsuario');
             $table->unsignedBigInteger('idEmpresa');

@@ -20,6 +20,7 @@ class Administrador extends Authenticatable
         "idEmpresa",
         "idPersona"
     ];
+    
     public function empresa()
     {
         //relacion uno a muchos, una administrador tiene una empresa y una empresa muchos admin

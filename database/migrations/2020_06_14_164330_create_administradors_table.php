@@ -17,7 +17,7 @@ class CreateAdministradorsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('nombreUsuario', 50);
-            $table->string('contraseña', 50);
+            $table->string('contraseña', 200);
             $table->string('ultimoInicioSesion');
             $table->integer('estadoAdmin');
             $table->unsignedBigInteger('idEmpresa');

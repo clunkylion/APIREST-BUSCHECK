@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', 'AuthController@login');
 Route::post('/signup', 'AuthController@signUp');
-Route::apiResource('/empresa', 'EmpresaController');
-
 //Route::apiResource('/admin', 'AdministradorController');
 
 //en este grupo se le indica que para acceder a las rutas hay que estar autenticado
@@ -29,7 +27,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     //ruta para consultar por los administrador
     Route::apiResource('/admin', 'AdministradorController');
     //ruta para consultar empresa
-    
+    Route::apiResource('/empresa', 'EmpresaController');
     //ruta para consultar boleto
     Route::apiResource('/boleto', 'BoletoController');
     //ruta para consultar cliente

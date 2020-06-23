@@ -24,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        // busCheck-token toquen de acceso personal, ver documentación 
         Passport::routes();
     }
 }

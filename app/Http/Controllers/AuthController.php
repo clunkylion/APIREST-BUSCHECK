@@ -14,7 +14,10 @@ class AuthController extends Controller
 {
     //
     public function login(Request $request){
-       
+        $request->validate([
+            "nombreUsuario" => "required",
+            "clave" => "required"
+        ]);
         $admin = Administrador::where('nombreUsuario', $request->nombreUsuario)->first();
         $usuario = Usuario::where('nombreUsuario', $request->nombreUsuario)->first();
         if ($admin) {
@@ -51,22 +54,36 @@ class AuthController extends Controller
         
     }
     public function signUp(Request $request){
+        $request->validate([
+            "rut" => "required | min:10",
+            "nombre" => "required",
+            "apellido" => "required",
+            "telefono" => "required",
+            "correo" => "required | email",
+            "sexo" => "required",
+            "fechaNacimiento" => "required",
+            "tipoPersona" => "required",
+            "nombreUsuario" => "required",
+            "password" => "required",
+            "ultimaSesion" => "required",
+            "estado" => "required",
+        ]);
         $persona = Persona::create([
-            "rut" => $request->input('rut'),
-            "nombre" => $request->input('nombre'),
-            "apellido" => $request->input('apellido'),
-            "telefono" => $request->input('telefono'),
-            "correo" => $request->input('correo'),
-            "sexo" => $request->input('sexo'),
-            "fechaNacimiento" => $request->input('fechaNacimiento'),
-            "tipoPersona" => $request->input('tipoPersona')
+            "rut" => $request->rut,
+            "nombre" => $request->nombre,
+            "apellido" => $request->apellido,
+            "telefono" => $request->telefono,
+            "correo" => $request->correo,
+            "sexo" => $request->sexo,
+            "fechaNacimiento" => $request->fechaNacimiento,
+            "tipoPersona" => $request->tipoPersona
         ]);
         if ($request->input('tipoDeUsuario') == 'Administrador') {
             $admin = Administrador::create([
-            "nombreUsuario" => $request->input('nombreUsuario'),
-            "contraseña" => Hash::make($request->input('password')),
-            "ultimoInicioSesion" => $request->input('ultimaSesion'),
-            "estadoAdmin" => $request->input('estado'),
+            "nombreUsuario" => $request->nombreUsuario,
+            "contraseña" => Hash::make($request->password),
+            "ultimoInicioSesion" => $request->ultimaSesion,
+            "estadoAdmin" => $request->estado,
             "idEmpresa" => $request->input('idEmpresa'),
             "idPersona" => $persona->id
             ]);
@@ -77,10 +94,10 @@ class AuthController extends Controller
             ],Response::HTTP_OK);
         }elseif ($request->input('tipoDeUsuario') == 'Usuario'){
             $usuario = Usuario::create([
-                "nombreUsuario" => $request->input('nombreUsuario'),
-                "contraseña" => Hash::make($request->input('password')),
-                "ultimoInicioSesion" => $request->input('ultimaSesion'),
-                "estadoUsuario" => $request->input('estado'),
+                "nombreUsuario" => $request->nombreUsuario,
+                "contraseña" => Hash::make($request->password),
+                "ultimoInicioSesion" => $request->$request->ultimaSesion,
+                "estadoUsuario" => $request->estado,
                 "idEmpresa" => $request->input('idEmpresa'),
                 "idPersona" => $persona->id
             ]);

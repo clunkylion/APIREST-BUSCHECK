@@ -20,6 +20,9 @@ class Administrador extends Authenticatable
         "idEmpresa",
         "idPersona"
     ];
+    protected $hidden = [
+        'contraseña', 'remember_token',
+    ];
     
     public function empresa()
     {

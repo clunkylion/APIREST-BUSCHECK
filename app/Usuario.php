@@ -22,6 +22,10 @@ class Usuario extends Authenticatable
         "idEmpresa",
         "idPersona"
     ];
+    protected $hidden = [
+        'contraseña', 'remember_token',
+    ];
+
     public function empresa()
     {
         //relacion uno a muchos, una usuario tiene una empresa y una empresa muchos admin

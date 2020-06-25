@@ -7,12 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use App\Administrador;
 use App\Persona;
 use App\Usuario;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    //
+    // public function __construct()
+    // {
+    //     $this->middleware('guest:admin')->except('logout');
+    //     $this->middleware('guest:usuarios')->except('logout');
+    // }
+    
     public function login(Request $request){
         $request->validate([
             "nombreUsuario" => "required",
@@ -22,12 +28,12 @@ class AuthController extends Controller
         $usuario = Usuario::where('nombreUsuario', $request->nombreUsuario)->first();
         if ($admin) {
            if (Hash::check($request->clave, $admin->contraseña)) {
-               
                $token = $admin->createToken('Admin Token')->accessToken;
                if ($token) {
                     return response()->json([
                         "Message" => "Bienvenid@ ".$admin->nombreUsuario ,
-                         "Token" => $token], 200);
+                         "Token" => $token
+                    ], 200);
                 }else{
                     return response()->json("Error en el Login", 401);
                 }
@@ -35,7 +41,6 @@ class AuthController extends Controller
                return response()->json(['Error' => 'Contraseña o Nombre de Administrador incorrecto'], 422);
            }
         }elseif ($usuario) {
-
             if (Hash::check($request->clave, $usuario->contraseña)) {
                 $token = $usuario->createToken('Usuario Token')->accessToken;
                 if ($token) {
@@ -51,8 +56,8 @@ class AuthController extends Controller
         }else{
             return response()->json(['Error' => 'Sus datos no existen'], 422);
         }
-        
     }
+
     public function signUp(Request $request){
         $request->validate([
             "rut" => "required | min:10",
@@ -96,7 +101,7 @@ class AuthController extends Controller
             $usuario = Usuario::create([
                 "nombreUsuario" => $request->nombreUsuario,
                 "contraseña" => Hash::make($request->password),
-                "ultimoInicioSesion" => $request->$request->ultimaSesion,
+                "ultimoInicioSesion" => $request->ultimaSesion,
                 "estadoUsuario" => $request->estado,
                 "idEmpresa" => $request->input('idEmpresa'),
                 "idPersona" => $persona->id

@@ -23,7 +23,7 @@ Route::post('/signup', 'AuthController@signUp');
 //Route::apiResource('/admin', 'AdministradorController');
 
 //en este grupo se le indica que para acceder a las rutas hay que estar autenticado
-Route::group(['middleware' => 'auth:api'], function () {
+
     //ruta para consultar por los administrador
     Route::apiResource('/admin', 'AdministradorController');
     //ruta para consultar empresa
@@ -49,5 +49,4 @@ Route::group(['middleware' => 'auth:api'], function () {
     //ruta para consultar buses
     Route::apiResource('/fotobuses', 'FotoBusController');
 
-});
 

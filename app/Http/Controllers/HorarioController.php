@@ -21,6 +21,7 @@ class HorarioController extends Controller
         
         $horarios = DB::table('horarios')->join('origens', 'origens.id', '=', 'horarios.idOrigen')
         ->join('destinos', 'destinos.id', '=', 'horarios.idDestino')->get();
+        
         return response()->json([
             "message" => "Lista de Horarios",
             "data" => $horarios,

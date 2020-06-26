@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class EmpresaSeeder extends Seeder
 {
@@ -12,5 +13,8 @@ class EmpresaSeeder extends Seeder
     public function run()
     {
         //
+        DB::table('empresas')->insert([
+            "nombreEmpresa" => "buscheck"
+        ]);
     }
 }

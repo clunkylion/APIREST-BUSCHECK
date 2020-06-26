@@ -14,7 +14,11 @@ class EmpresaSeeder extends Seeder
     {
         //
         DB::table('empresas')->insert([
-            "nombreEmpresa" => "buscheck"
+            "nombreEmpresa" => "buscheck",
+            "direccionEmpresa" => "Arturo Sarzoza 595",
+            "ciudadEmpresa" => "Coquimbo", 
+            "telefonoEmpresa" => "974135263", 
+            "correoEmpresa" => "contacto@busCheck.com"
         ]);
     }
 }

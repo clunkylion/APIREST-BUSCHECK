@@ -2,61 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Administrador;
 use App\Persona;
 use App\Usuario;
-use Carbon\Carbon;
+// use JWTAuth;
+// use Config;
+// use Tymon\JWTAuth\Exceptions\JWTException;
+// use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('guest:admin')->except('logout');
-    //     $this->middleware('guest:usuarios')->except('logout');
-    // }
-    
-    public function login(Request $request){
+
+     public function login(Request $request){
         $request->validate([
             "nombreUsuario" => "required",
-            "clave" => "required"
-        ]);
-        $admin = Administrador::where('nombreUsuario', $request->nombreUsuario)->first();
-        $usuario = Usuario::where('nombreUsuario', $request->nombreUsuario)->first();
-        if ($admin) {
-           if (Hash::check($request->clave, $admin->contraseña)) {
-               $token = $admin->createToken('Admin Token')->accessToken;
-               if ($token) {
-                    return response()->json([
-                        "Message" => "Bienvenid@ ".$admin->nombreUsuario ,
-                         "Token" => $token
-                    ], 200);
-                }else{
-                    return response()->json("Error en el Login", 401);
-                }
-           }else{
-               return response()->json(['Error' => 'Contraseña o Nombre de Administrador incorrecto'], 422);
-           }
-        }elseif ($usuario) {
-            if (Hash::check($request->clave, $usuario->contraseña)) {
-                $token = $usuario->createToken('Usuario Token')->accessToken;
-                if ($token) {
-                     return response()->json([
-                         "Message" => "Bienvenid@ ".$usuario->nombreUsuario ,
-                          "Token" => $token], 200);
-                 }else{
-                     return response()->json("Error en el Login", 401);
-                 }
+            "clave" => "required",
+        ]);    
+         $admin = Administrador::where('nombreUsuario', $request->nombreUsuario)->first();
+         $usuario = Usuario::where('nombreUsuario', $request->nombreUsuario)->first();
+         if ($admin) {
+            if (Hash::check($request->clave, $admin->contraseña)) {
+                 return response()->json([
+                    "Message" => "Bienvenid@ ".$admin->nombreUsuario,
+                    "data" => $admin
+                ], 200);
             }else{
-                return response()->json(['Error' => 'Contraseña o Nombre de usuario incorrecto'], 422);
+                return response()->json([
+                    'Error' => 'Contraseña o Nombre de Administrador incorrecto',
+                    "status" => Response::HTTP_UNAUTHORIZED,
+                ], 422);
             }
-        }else{
-            return response()->json(['Error' => 'Sus datos no existen'], 422);
-        }
-    }
+         }elseif ($usuario) {
+             if (Hash::check($request->clave, $usuario->contraseña)) {
+                return response()->json([
+                    "Message" => "Bienvenid@ ".$usuario->nombreUsuario ,
+                    "data" => $usuario
+                ], Response::HTTP_UNAUTHORIZED);
+             }else{
+                return response()->json([
+                    'Error' => 'Contraseña o Nombre de Administrador incorrecto',
+                    "status" => Response::HTTP_UNAUTHORIZED,
+                ], Response::HTTP_UNAUTHORIZED);
+             }
+         }else{
+             return response()->json([
+                 'error' => 'Sus datos no existen o están mal escritos',
+                 'status' => 422
+                ], 422);
+         }
+     }
 
     public function signUp(Request $request){
         $request->validate([
@@ -117,7 +116,7 @@ class AuthController extends Controller
                 "status" => Response::HTTP_INTERNAL_SERVER_ERROR
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 }
 
